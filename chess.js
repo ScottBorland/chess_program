@@ -2,7 +2,7 @@
 var rows = 8;
 var columns = 8;
 
-var squareSize = 50;
+var squareSize = 100;
 
 var board = [];
 
@@ -11,8 +11,13 @@ var squares = [];
 var pieces = [];
 
 function setup(){
-    frameRate(20);
+    frameRate(1);
     createCanvas(1920, 1080);
+    if(rows < 1){
+        rows = 1;
+    }else if(columns < 1){
+        columns = 1;
+    }
     //initialise 3d array for board
     for (i = 0; i < rows; i++) {
         board[i] = new Array(columns);
@@ -26,11 +31,12 @@ function setup(){
         }
     }
     //testing adding pieces
-    pieces.push(new King(4, 4, 'W'));
+    //pieces.push(new King(4, 4, 'W'));
+    pieces.push(new Rook(0, 0, 'B'));
 }
 
 function draw(){
-    background(51);
+    background(230);
     //draw squares
     for(i = 0; i < squares.length; i++){
         squares[i].show();
@@ -62,9 +68,9 @@ function Square(row, column){
     this.show = function (){
         let c = color(0);
         if(this.colour == 'W'){
-            c = color(51);
+            c = color(177,228,185);
         }else{
-            c = color(0);
+            c = color(112, 162, 163);
         }
         fill(c);
         var position = coordinatesToPixelPos(this.r, this.c);
