@@ -1,8 +1,8 @@
 //control size of board
-var rows = 3;
-var columns = 9;
+var rows = 8;
+var columns = 8;
 
-var squareSize = 5;
+var squareSize = 50;
 
 var board = [];
 
@@ -27,8 +27,7 @@ function setup(){
 }
 
 function draw(){
-    //background(0);
-    
+    background(51);
     //draw squares
     for(i = 0; i < squares.length; i++){
         squares[i].show();
@@ -39,18 +38,23 @@ function Square(row, column){
     this.r = row;
     this.c = column;
     
-    if(this.r + this.c % 2 == 0){
-        this.colour = 'B';
-    }else{
+    if((this.r + this.c) % 2 == 0){
         this.colour = 'W';
+    }else{
+        this.colour = 'B';
     }
     
     this.show = function (){
         //console.log('show');
         //background(0);
-        fill(34);
-        rect(400, 400, 34);
-        //square(width / 2 - ((rows/2) * squareSize), height / 2 - ((columns/2 * squareSize)), squareSize);
+        let c = color(93);
+        if(this.colour == 'W'){
+            c = color(51);
+        }else{
+            c = color(0);
+        }
+        fill(c);
+        rect(width / 2 - ((rows/2) * squareSize) + (this.r * squareSize), height / 2 - ((columns/2 * squareSize)) + (this.c * squareSize), squareSize, squareSize);
     }
     
 }
