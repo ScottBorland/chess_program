@@ -11,6 +11,7 @@ var squares = [];
 var pieces = [];
 
 function setup(){
+    frameRate(20);
     createCanvas(1920, 1080);
     //initialise 3d array for board
     for (i = 0; i < rows; i++) {
@@ -37,6 +38,7 @@ function draw(){
     //draw pieces
     for(i = 0; i < pieces.length; i++){
         pieces[i].show();
+        pieces[i].randomMove();
     }
 }
 
