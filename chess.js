@@ -32,7 +32,14 @@ function setup(){
     }
     //testing adding pieces
     //pieces.push(new King(4, 4, 'W'));
-    pieces.push(new Rook(0, 0, 'B'));
+    //pieces.push(new Rook(0, 0, 'B'));
+    //pieces.push(new Knight(1, 1, 'W'));
+    //pieces.push(new Bishop(4, 3, 'B'));
+    //pieces.push(new Queen(4, 4, 'B'));
+    //pieces.push(new King(1, 1, 'W'));
+    pieces.push(new Pawn(1,1, 'B'));
+    pieces.push(new Pawn(6, 6, 'W'));
+    pieces.push(new Pawn(4, 5, 'W'));
 }
 
 function draw(){
