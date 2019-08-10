@@ -30,7 +30,7 @@ function King(row, column, colour){
         var possibleMoves = [[0,1], [1,1], [1, 0], [1, -1], [0, -1], [-1, -1], [-1, 0], [-1, 1]];
         for(var i = 0; i < possibleMoves.length; i++){
             var endPos = p5.Vector.add(this.pos, possibleMoves[i]);
-            if(endPos.x >= 0 && endPos.x < (rows) && endPos.y >= 0 && endPos.y < (columns) && otherConditions == true){
+            if(endPos.x >= 0 && endPos.x < (rows) && endPos.y >= 0 && endPos.y < (columns) && board[endPos.x][endPos.y].pieces == 'none' && otherConditions == true){
                 legalMoves.push(possibleMoves[i]);
             }
         }
@@ -40,6 +40,7 @@ function King(row, column, colour){
     this.randomMove = function(){
         var legalMoves = this.availableMoves();
         chosenMove = random(legalMoves);
+        board[this.pos.x][this.pos.y].pieces = 'none';
         this.pos.add(chosenMove);
     }
     
@@ -106,7 +107,7 @@ function Rook(row, column, colour){
         
         for(var i = 0; i < possibleMoves.length; i++){
             var endPos = p5.Vector.add(this.pos, possibleMoves[i]);
-            if(endPos.x >= 0 && endPos.x < (rows) && endPos.y >= 0 && endPos.y < (columns) && otherConditions == true){
+            if(endPos.x >= 0 && endPos.x < (rows) && endPos.y >= 0 && endPos.y < (columns) && board[endPos.x][endPos.y].pieces == 'none' && otherConditions == true){
                 legalMoves.push(possibleMoves[i]);
             }
         }
@@ -116,6 +117,7 @@ function Rook(row, column, colour){
     this.randomMove = function(){
         var legalMoves = this.availableMoves();
         chosenMove = random(legalMoves);
+        board[this.pos.x][this.pos.y].pieces = 'none';
         this.pos.add(chosenMove);
     } 
 }
@@ -152,7 +154,7 @@ function Knight(row, column, colour){
         var possibleMoves = [[1,2], [2,1], [2, -1], [-2, 1], [-2, -1], [1, -2], [-1, -2], [2, -1]];
         for(var i = 0; i < possibleMoves.length; i++){
             var endPos = p5.Vector.add(this.pos, possibleMoves[i]);
-            if(endPos.x >= 0 && endPos.x < (rows) && endPos.y >= 0 && endPos.y < (columns) && otherConditions == true){
+            if(endPos.x >= 0 && endPos.x < (rows) && endPos.y >= 0 && endPos.y < (columns) && board[endPos.x][endPos.y].pieces == 'none' && otherConditions == true){
                 legalMoves.push(possibleMoves[i]);
             }
         }
@@ -162,6 +164,7 @@ function Knight(row, column, colour){
     this.randomMove = function(){
         var legalMoves = this.availableMoves();
         chosenMove = random(legalMoves);
+        board[this.pos.x][this.pos.y].pieces = 'none';
         this.pos.add(chosenMove);
     }
 }
@@ -224,7 +227,7 @@ function Bishop(row, column, colour){
                
         for(var i = 0; i < possibleMoves.length; i++){
             var endPos = p5.Vector.add(this.pos, possibleMoves[i]);
-            if(endPos.x >= 0 && endPos.x < (rows) && endPos.y >= 0 && endPos.y < (columns) && otherConditions == true){
+            if(endPos.x >= 0 && endPos.x < (rows) && endPos.y >= 0 && endPos.y < (columns) && board[endPos.x][endPos.y].pieces == 'none' && otherConditions == true){
                 legalMoves.push(possibleMoves[i]);
             }
         }
@@ -234,6 +237,7 @@ function Bishop(row, column, colour){
     this.randomMove = function(){
         var legalMoves = this.availableMoves();
         chosenMove = random(legalMoves);
+        board[this.pos.x][this.pos.y].pieces = 'none';
         this.pos.add(chosenMove);
     }
 }
@@ -320,7 +324,7 @@ function Queen(row, column, colour){
                
         for(var i = 0; i < possibleMoves.length; i++){
             var endPos = p5.Vector.add(this.pos, possibleMoves[i]);
-            if(endPos.x >= 0 && endPos.x < (rows) && endPos.y >= 0 && endPos.y < (columns) && otherConditions == true){
+            if(endPos.x >= 0 && endPos.x < (rows) && endPos.y >= 0 && endPos.y < (columns) && board[endPos.x][endPos.y].pieces == 'none' && otherConditions == true){
                 legalMoves.push(possibleMoves[i]);
             }
         }
@@ -330,6 +334,7 @@ function Queen(row, column, colour){
     this.randomMove = function(){
         var legalMoves = this.availableMoves();
         chosenMove = random(legalMoves);
+        board[this.pos.x][this.pos.y].pieces = 'none';
         this.pos.add(chosenMove);
     }
 }
@@ -380,7 +385,7 @@ function Pawn(row, column, colour){
         
         for(var i = 0; i < possibleMoves.length; i++){
             var endPos = p5.Vector.add(this.pos, possibleMoves[i]);
-            if(endPos.x >= 0 && endPos.x < (rows) && endPos.y >= 0 && endPos.y < (columns) && otherConditions == true){
+            if(endPos.x >= 0 && endPos.x < (rows) && endPos.y >= 0 && endPos.y < (columns) && board[endPos.x][endPos.y].pieces == 'none' && otherConditions == true){
                 legalMoves.push(possibleMoves[i]);
             }
         }
@@ -390,6 +395,7 @@ function Pawn(row, column, colour){
     this.randomMove = function(){
         var legalMoves = this.availableMoves();
         chosenMove = random(legalMoves);
+        board[this.pos.x][this.pos.y].pieces = 'none';
         this.pos.add(chosenMove);
     }
     
