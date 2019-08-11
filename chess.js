@@ -11,7 +11,7 @@ var squares = [];
 var pieces = [];
 
 function setup(){
-    frameRate(10);
+    frameRate(1);
     createCanvas(1920, 1080);
     if(rows < 1){
         rows = 1;
@@ -31,7 +31,7 @@ function setup(){
         }
     }
     //testing adding pieces
-    pieces.push(new Rook(0, 0, 'B'));
+    /*pieces.push(new Rook(0, 0, 'B'));
     pieces.push(new Knight(1, 0, 'B'));
     pieces.push(new Bishop(2, 0, 'B'));
     pieces.push(new Queen(3, 0, 'B'));
@@ -63,7 +63,18 @@ function setup(){
     pieces.push(new Pawn(4, 6, 'W'));
     pieces.push(new Pawn(5, 6, 'W'));
     pieces.push(new Pawn(6,6, 'W'));
-    pieces.push(new Pawn(7, 6, 'W'));
+    pieces.push(new Pawn(7, 6, 'W'));*/
+    
+    pieces.push(new Rook(3, 7, 'W'));
+    pieces.push(new Rook(4, 5, 'W'));
+    pieces.push(new Rook(3, 4, 'W'));
+    pieces.push(new Rook(4, 1, 'W'));
+    pieces.push(new Rook(6, 5, 'W'));
+    
+    for(i = 0; i < pieces.length; i++){
+        board[pieces[i].pos.x][pieces[i].pos.y].pieces = pieces[i].label;
+        board[pieces[i].pos.x][pieces[i].pos.y].pieces = pieces[i].colour;
+    }
 }
 
 function draw(){
@@ -78,11 +89,18 @@ function draw(){
         //pieces[i].randomMove();
     }
     
-    //random(pieces).randomMove();
+    random(pieces).randomMove();
+    
+    for(i = 0; i < rows; i++){
+        for(j = 0; j < columns; j++){
+            board[i][j].pieces = 'none';
+            board[i][j].pieceColour = 'none';
+        }
+    }
     
     for(i = 0; i < pieces.length; i++){
         board[pieces[i].pos.x][pieces[i].pos.y].pieces = pieces[i].label;
-        board[pieces[i].pos.x][pieces[i].pos.y].pieces = pieces[i].colour;
+        board[pieces[i].pos.x][pieces[i].pos.y].pieceColour = pieces[i].colour;
     }
     
 }

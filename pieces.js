@@ -79,8 +79,25 @@ function Rook(row, column, colour){
         var possibleHorizontalMoves = [];
         for(var i = 0; i < rows; i++){
             if(i != 0){
+                if(this.pos.x + i < rows){
+                if(board[i + this.pos.x][this.pos.y].pieceColour == 'none'){
                 possibleHorizontalMoves.push(i);
+                }else{
+                    break;
+                    }
+                }
+            }
+        }
+        
+        for(var i = 0; i < rows; i++){
+            if(i != 0){
+                if(this.pos.x - i >= 0){
+                if(board[(-i + this.pos.x)][this.pos.y].pieceColour == 'none'){
                 possibleHorizontalMoves.push(-i);
+                }else{
+                    break;
+                    }
+                }
             }
         }
         
@@ -89,8 +106,25 @@ function Rook(row, column, colour){
         var possibleVerticalMoves = [];
         for(var i = 0; i < columns; i++){
             if(i != 0){
-                possibleVerticalMoves.push(i);
-                possibleVerticalMoves.push(-i);
+                if(this.pos.y + i < columns){
+                    if(board[this.pos.x][this.pos.y + i].pieceColour == 'none'){
+                        possibleVerticalMoves.push(i);
+                    }else{
+                        break;
+                    }
+                }
+            }
+        }
+        
+        for(var i = 0; i < columns; i++){
+            if(i != 0){
+                if(this.pos.y - i >= 0){
+                    if(board[this.pos.x][(this.pos.y - i)].pieceColour == 'none'){
+                        possibleVerticalMoves.push(-i);
+                    }else{
+                        break;
+                    }
+                }
             }
         }
         
@@ -394,9 +428,13 @@ function Pawn(row, column, colour){
     
     this.randomMove = function(){
         var legalMoves = this.availableMoves();
+        if(this.availableMoves.length != 0){
         chosenMove = random(legalMoves);
         board[this.pos.x][this.pos.y].pieces = 'none';
         this.pos.add(chosenMove);
+        }else{
+            return('noLegalMoves');
+        }
     }
     
 }
