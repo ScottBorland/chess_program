@@ -11,7 +11,7 @@ var squares = [];
 var pieces = [];
 
 function setup(){
-    frameRate(1);
+    frameRate(3);
     createCanvas(1920, 1080);
     if(rows < 1){
         rows = 1;
@@ -70,6 +70,8 @@ function setup(){
     pieces.push(new Rook(3, 4, 'W'));
     pieces.push(new Rook(4, 1, 'W'));
     pieces.push(new Rook(6, 5, 'W'));
+    pieces.push(new Rook(3, 2, 'B'));
+    pieces.push(new Rook(2, 2, 'B'));
     
     for(i = 0; i < pieces.length; i++){
         board[pieces[i].pos.x][pieces[i].pos.y].pieces = pieces[i].label;
@@ -85,11 +87,16 @@ function draw(){
     }
     //draw pieces
     for(i = 0; i < pieces.length; i++){
+        if(pieces[i].captured == false){
         pieces[i].show();
         //pieces[i].randomMove();
+        }
     }
     
-    random(pieces).randomMove();
+    let randomPiece = random(pieces);
+    if(randomPiece.captured == false){
+        randomPiece.randomMove();
+    }
     
     for(i = 0; i < rows; i++){
         for(j = 0; j < columns; j++){
@@ -100,6 +107,7 @@ function draw(){
     
     for(i = 0; i < pieces.length; i++){
         board[pieces[i].pos.x][pieces[i].pos.y].pieces = pieces[i].label;
+        board[pieces[i].pos.x][pieces[i].pos.y].pieceObject = pieces[i];
         board[pieces[i].pos.x][pieces[i].pos.y].pieceColour = pieces[i].colour;
     }
     
@@ -116,6 +124,7 @@ function Square(row, column){
     
     this.pieces = 'none';
     this.pieceColour = 'none';
+    this.pieceObject = 'none';
     
     if((this.r + this.c) % 2 == 0){
         this.colour = 'W';

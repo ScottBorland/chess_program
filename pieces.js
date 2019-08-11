@@ -1,5 +1,6 @@
 
 function King(row, column, colour){
+    this.captured = false;
     this.label = 'K';
     this.pos = createVector(row, column);
     if(colour == 'W'){
@@ -47,6 +48,7 @@ function King(row, column, colour){
 }
 
 function Rook(row, column, colour){
+    this.captured = false;
     this.label = 'R';
     this.pos = createVector(row, column);
     if(colour == 'W'){
@@ -55,6 +57,11 @@ function Rook(row, column, colour){
         this.colour = 'B';
     }
     this.show = function(){
+        
+        if(this.captured){
+            console.log('Captured');
+        }
+        
         var position = coordinatesToPixelPos((this.pos.x), (this.pos.y));
         position.x = position.x + (squareSize / 2);
         position.y = (position.y) + (squareSize / 2);
@@ -79,8 +86,12 @@ function Rook(row, column, colour){
         var possibleHorizontalMoves = [];
         for(var i = 0; i < rows; i++){
             if(i != 0){
-                if(this.pos.x + i < rows){
-                if(board[i + this.pos.x][this.pos.y].pieceColour == 'none'){
+                if(i + this.pos.x < rows){
+                    if(board[(i + this.pos.x)][this.pos.y].pieceColour != 'none' && board[(i + this.pos.x)][this.pos.y].pieceColour != this.colour){
+                        possibleHorizontalMoves.push(i);
+                        break;
+                    }
+                if(board[(i + this.pos.x)][this.pos.y].pieceColour == 'none'){
                 possibleHorizontalMoves.push(i);
                 }else{
                     break;
@@ -92,6 +103,10 @@ function Rook(row, column, colour){
         for(var i = 0; i < rows; i++){
             if(i != 0){
                 if(this.pos.x - i >= 0){
+                    if(board[(-i + this.pos.x)][this.pos.y].pieceColour != 'none' && board[(-i + this.pos.x)][this.pos.y].pieceColour != this.colour){
+                        possibleHorizontalMoves.push(-i);
+                        break;
+                    }
                 if(board[(-i + this.pos.x)][this.pos.y].pieceColour == 'none'){
                 possibleHorizontalMoves.push(-i);
                 }else{
@@ -107,6 +122,10 @@ function Rook(row, column, colour){
         for(var i = 0; i < columns; i++){
             if(i != 0){
                 if(this.pos.y + i < columns){
+                    if(board[(this.pos.x)][this.pos.y + i].pieceColour != 'none' && board[(this.pos.x)][this.pos.y + i].pieceColour != this.colour){
+                        possibleVerticalMoves.push(i);
+                        break;
+                    }
                     if(board[this.pos.x][this.pos.y + i].pieceColour == 'none'){
                         possibleVerticalMoves.push(i);
                     }else{
@@ -119,6 +138,10 @@ function Rook(row, column, colour){
         for(var i = 0; i < columns; i++){
             if(i != 0){
                 if(this.pos.y - i >= 0){
+                    if(board[(this.pos.x)][this.pos.y - i].pieceColour != 'none' && board[(this.pos.x)][this.pos.y - i].pieceColour != this.colour){
+                        possibleVerticalMoves.push(-i);
+                        break;
+                    }
                     if(board[this.pos.x][(this.pos.y - i)].pieceColour == 'none'){
                         possibleVerticalMoves.push(-i);
                     }else{
@@ -141,7 +164,7 @@ function Rook(row, column, colour){
         
         for(var i = 0; i < possibleMoves.length; i++){
             var endPos = p5.Vector.add(this.pos, possibleMoves[i]);
-            if(endPos.x >= 0 && endPos.x < (rows) && endPos.y >= 0 && endPos.y < (columns) && board[endPos.x][endPos.y].pieces == 'none' && otherConditions == true){
+            if(endPos.x >= 0 && endPos.x < (rows) && endPos.y >= 0 && endPos.y < (columns) && board[endPos.x][endPos.y].pieces != this.colour && otherConditions == true){
                 legalMoves.push(possibleMoves[i]);
             }
         }
@@ -152,11 +175,19 @@ function Rook(row, column, colour){
         var legalMoves = this.availableMoves();
         chosenMove = random(legalMoves);
         board[this.pos.x][this.pos.y].pieces = 'none';
+        var endPoz = p5.Vector.add(this.pos, chosenMove);
+        if(board[endPoz.x][endPoz.y].pieces != 'none'){
+            board[endPoz.x][endPoz.y].pieceObject.captured = true;
+            console.log('capture');
+            console.log(board[endPoz.x][endPoz.y].pieces);
+        }
         this.pos.add(chosenMove);
+        
     } 
 }
 
 function Knight(row, column, colour){
+    this.captured = false;
     this.label = 'N';
     this.pos = createVector(row, column);
     if(colour == 'W'){
@@ -204,6 +235,7 @@ function Knight(row, column, colour){
 }
 
 function Bishop(row, column, colour){
+    this.captured = false;
     this.label = 'B';
     this.pos = createVector(row, column);
     if(colour == 'W'){
@@ -277,6 +309,7 @@ function Bishop(row, column, colour){
 }
 
 function Queen(row, column, colour){
+    this.captured = false;
     this.label = 'Q';
     this.pos = createVector(row, column);
     if(colour == 'W'){
@@ -374,6 +407,7 @@ function Queen(row, column, colour){
 }
 
 function Pawn(row, column, colour){
+    this.captured = false;
     this.label = 'P';
     this.pos = createVector(row, column);
     if(colour == 'W'){
