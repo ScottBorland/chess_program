@@ -4,6 +4,8 @@ var columns = 8;
 
 var squareSize = 100;
 
+var images = [];
+
 var board = [];
 
 var squares = [];
@@ -13,6 +15,14 @@ var pieces = [];
 function setup(){
     frameRate(3);
     createCanvas(1920, 1080);
+    
+    for (var i = 1; i < 10; i++) {
+        images.push(loadImage("assets/2000px-Chess_Pieces_Sprite_0" + i + ".png"));
+    }
+    for (var i = 10; i < 13; i++) {
+        images.push(loadImage("assets/2000px-Chess_Pieces_Sprite_" + i + ".png"));
+    }
+    
     if(rows < 1){
         rows = 1;
     }else if(columns < 1){
@@ -31,7 +41,7 @@ function setup(){
         }
     }
     //testing adding pieces
-    /*pieces.push(new Rook(0, 0, 'B'));
+    pieces.push(new Rook(0, 0, 'B'));
     pieces.push(new Knight(1, 0, 'B'));
     pieces.push(new Bishop(2, 0, 'B'));
     pieces.push(new Queen(3, 0, 'B'));
@@ -63,7 +73,8 @@ function setup(){
     pieces.push(new Pawn(4, 6, 'W'));
     pieces.push(new Pawn(5, 6, 'W'));
     pieces.push(new Pawn(6,6, 'W'));
-    pieces.push(new Pawn(7, 6, 'W'));*/
+    pieces.push(new Pawn(7, 6, 'W'));
+    
     
     /*pieces.push(new Rook(3, 7, 'W'));
     pieces.push(new Rook(4, 5, 'W'));
@@ -89,7 +100,7 @@ function setup(){
     pieces.push(new Queen(3, 2, 'B'));
     pieces.push(new Queen(2, 2, 'B'));*/
     
-    pieces.push(new Pawn(0, 1, 'B'));
+    /*pieces.push(new Pawn(0, 1, 'B'));
     pieces.push(new Pawn(1, 1, 'B'));
     pieces.push(new Pawn(2,1, 'B'));
     pieces.push(new Pawn(3, 1, 'B'));
@@ -105,7 +116,7 @@ function setup(){
     pieces.push(new Pawn(4, 6, 'W'));
     pieces.push(new Pawn(5, 6, 'W'));
     pieces.push(new Pawn(6,6, 'W'));
-    pieces.push(new Pawn(7, 6, 'W'));
+    pieces.push(new Pawn(7, 6, 'W'));*/
     
     for(i = 0; i < pieces.length; i++){
         board[pieces[i].pos.x][pieces[i].pos.y].pieces = pieces[i].label;

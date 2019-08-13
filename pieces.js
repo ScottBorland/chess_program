@@ -5,9 +5,14 @@ function King(row, column, colour){
     this.pos = createVector(row, column);
     if(colour == 'W'){
         this.colour = 'W';
+        this.pic = images[0];
     }else{
         this.colour = 'B';
+        this.pic = images[6];
     }
+    
+    
+    
     this.show = function(){
         var position = coordinatesToPixelPos((this.pos.x), (this.pos.y));
         position.x = position.x + (squareSize / 2);
@@ -20,7 +25,14 @@ function King(row, column, colour){
         textSize(30);
         textAlign(CENTER, CENTER);
         text(this.label, position.x, position.y);
+        
+        imageMode(CENTER);
+        var imagePos = coordinatesToPixelPos((this.pos.x),(this.pos.y));
+        image(this.pic, imagePos.x + (squareSize / 2), imagePos.y + (squareSize / 2), squareSize, squareSize);
+        
     }
+    
+    
     //list all availabe legal moves
     this.availableMoves = function(){
         //replace this with other conditions such as captures, occupied spaces etc
@@ -53,8 +65,10 @@ function Rook(row, column, colour){
     this.pos = createVector(row, column);
     if(colour == 'W'){
         this.colour = 'W';
+        this.pic = images[4];
     }else{
         this.colour = 'B';
+        this.pic = images[10];
     }
     this.show = function(){
         
@@ -73,6 +87,10 @@ function Rook(row, column, colour){
         textSize(30);
         textAlign(CENTER, CENTER);
         text(this.label, position.x, position.y);
+        
+        imageMode(CENTER);
+        var imagePos = coordinatesToPixelPos((this.pos.x),(this.pos.y));
+        image(this.pic, imagePos.x + (squareSize / 2), imagePos.y + (squareSize / 2), squareSize, squareSize);
     }
     
     //list all availabe legal moves
@@ -192,8 +210,10 @@ function Knight(row, column, colour){
     this.pos = createVector(row, column);
     if(colour == 'W'){
         this.colour = 'W';
+        this.pic = images[3];
     }else{
         this.colour = 'B';
+        this.pic = images[9];
     }
     this.show = function(){
         var position = coordinatesToPixelPos((this.pos.x), (this.pos.y));
@@ -207,6 +227,10 @@ function Knight(row, column, colour){
         textSize(30);
         textAlign(CENTER, CENTER);
         text(this.label, position.x, position.y);
+        
+        imageMode(CENTER);
+        var imagePos = coordinatesToPixelPos((this.pos.x),(this.pos.y));
+        image(this.pic, imagePos.x + (squareSize / 2), imagePos.y + (squareSize / 2), squareSize, squareSize);
     }
     
     //list all availabe legal moves
@@ -246,8 +270,10 @@ function Bishop(row, column, colour){
     this.pos = createVector(row, column);
     if(colour == 'W'){
         this.colour = 'W';
+        this.pic = images[2];
     }else{
         this.colour = 'B';
+        this.pic = images[8];
     }
     this.show = function(){
         var position = coordinatesToPixelPos((this.pos.x), (this.pos.y));
@@ -261,6 +287,10 @@ function Bishop(row, column, colour){
         textSize(30);
         textAlign(CENTER, CENTER);
         text(this.label, position.x, position.y);
+        
+        imageMode(CENTER);
+        var imagePos = coordinatesToPixelPos((this.pos.x),(this.pos.y));
+        image(this.pic, imagePos.x + (squareSize / 2), imagePos.y + (squareSize / 2), squareSize, squareSize);
     }
     
     //list all availabe legal moves
@@ -344,8 +374,10 @@ function Queen(row, column, colour){
     this.pos = createVector(row, column);
     if(colour == 'W'){
         this.colour = 'W';
+        this.pic = images[1];
     }else{
         this.colour = 'B';
+        this.pic = images[7];
     }
     this.show = function(){
         var position = coordinatesToPixelPos((this.pos.x), (this.pos.y));
@@ -359,72 +391,12 @@ function Queen(row, column, colour){
         textSize(30);
         textAlign(CENTER, CENTER);
         text(this.label, position.x, position.y);
+        
+        imageMode(CENTER);
+        var imagePos = coordinatesToPixelPos((this.pos.x),(this.pos.y));
+        image(this.pic, imagePos.x + (squareSize / 2), imagePos.y + (squareSize / 2), squareSize, squareSize);
     }
-    
-    //previous rook code:
-    /*
-    var possibleHorizontalMovesR = [];
-        for(var i = 0; i < rows; i++){
-            if(i != 0){
-                possibleHorizontalMovesR.push(i);
-                possibleHorizontalMovesR.push(-i);
-            }
-        }
-
-        var possibleVerticalMovesR = [];
-        for(var i = 0; i < columns; i++){
-            if(i != 0){
-                possibleVerticalMovesR.push(i);
-                possibleVerticalMovesR.push(-i);
-            }
-        }
-
-        
-        var possibleMoves = [[]];
-        for (var i = 0; i < possibleHorizontalMovesR.length; i++){
-            possibleMoves.push(createVector(possibleHorizontalMovesR[i], 0));
-        }
-        
-        for (var i = 0; i < possibleVerticalMovesR.length; i++){
-            possibleMoves.push(createVector(0, possibleVerticalMovesR[i]));
-        }*/
-    
-    //previous bishop code:
-    /*
-    var possibleHorizontalMoves = [];
-        for(var i = 0; i < rows; i++){
-            if(i != 0){
-                possibleHorizontalMoves.push(i);
-                possibleHorizontalMoves.push(-i);
-            }
-        }
-        
-        var possibleVerticalMoves = [];
-        for(var i = 0; i < columns; i++){
-            if(i != 0){
-                possibleVerticalMoves.push(i);
-                possibleVerticalMoves.push(-i);
-            }
-        }
-        
-        //var possibleMoves = [[]];
-        for (var i = 0; i < possibleHorizontalMoves.length; i++){
-            for(var j = 0; j < possibleVerticalMoves.length; j++){
-                if(possibleHorizontalMoves[i] == possibleVerticalMoves[j] || possibleHorizontalMoves[i] == (possibleVerticalMoves[j] * -1)){
-                    possibleMoves.push(createVector(possibleHorizontalMoves[i], possibleVerticalMoves[j]));
-                }
-            }
-        }
-               
-        for(var i = 0; i < possibleMoves.length; i++){
-            var endPos = p5.Vector.add(this.pos, possibleMoves[i]);
-            if(endPos.x >= 0 && endPos.x < (rows) && endPos.y >= 0 && endPos.y < (columns) && board[endPos.x][endPos.y].pieces == 'none' && otherConditions == true){
-                legalMoves.push(possibleMoves[i]);
-            }
-        }
-        return(legalMoves);
-    }*/
-
+ 
     
     //list all availabe legal moves
     this.availableMoves = function(){
@@ -593,8 +565,10 @@ function Pawn(row, column, colour){
     this.pos = createVector(row, column);
     if(colour == 'W'){
         this.colour = 'W';
+        this.pic = images[5];
     }else{
         this.colour = 'B';
+        this.pic = images[11];
     }
     this.show = function(){
         var position = coordinatesToPixelPos((this.pos.x), (this.pos.y));
@@ -608,6 +582,10 @@ function Pawn(row, column, colour){
         textSize(30);
         textAlign(CENTER, CENTER);
         text(this.label, position.x, position.y);
+        
+        imageMode(CENTER);
+        var imagePos = coordinatesToPixelPos((this.pos.x),(this.pos.y));
+        image(this.pic, imagePos.x + (squareSize / 2), imagePos.y + (squareSize / 2), squareSize, squareSize);
     }
     //list all availabe legal moves
     this.availableMoves = function(){
