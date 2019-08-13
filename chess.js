@@ -65,13 +65,21 @@ function setup(){
     pieces.push(new Pawn(6,6, 'W'));
     pieces.push(new Pawn(7, 6, 'W'));*/
     
-    pieces.push(new Rook(3, 7, 'W'));
+    /*pieces.push(new Rook(3, 7, 'W'));
     pieces.push(new Rook(4, 5, 'W'));
     pieces.push(new Rook(3, 4, 'W'));
     pieces.push(new Rook(4, 1, 'W'));
     pieces.push(new Rook(6, 5, 'W'));
     pieces.push(new Rook(3, 2, 'B'));
-    pieces.push(new Rook(2, 2, 'B'));
+    pieces.push(new Rook(2, 2, 'B'));*/
+    
+    pieces.push(new Bishop(3, 7, 'W'));
+    pieces.push(new Bishop(4, 5, 'W'));
+    pieces.push(new Bishop(3, 4, 'B'));
+    pieces.push(new Bishop(4, 1, 'W'));
+    pieces.push(new Bishop(6, 5, 'W'));
+    pieces.push(new Bishop(3, 2, 'B'));
+    pieces.push(new Bishop(2, 2, 'B'));
     
     for(i = 0; i < pieces.length; i++){
         board[pieces[i].pos.x][pieces[i].pos.y].pieces = pieces[i].label;

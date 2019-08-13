@@ -263,37 +263,55 @@ function Bishop(row, column, colour){
         var otherConditions = true;
         
         var legalMoves = [];
-
-        var possibleHorizontalMoves = [];
-        for(var i = 0; i < rows; i++){
-            if(i != 0){
-                possibleHorizontalMoves.push(i);
-                possibleHorizontalMoves.push(-i);
-            }
-        }
+ 
         
-        //console.log(possibleHorizontalMoves);
-        
-        var possibleVerticalMoves = [];
-        for(var i = 0; i < columns; i++){
-            if(i != 0){
-                possibleVerticalMoves.push(i);
-                possibleVerticalMoves.push(-i);
-            }
-        }
-        
+        //Attempt to remake bishop move function
         var possibleMoves = [[]];
-        for (var i = 0; i < possibleHorizontalMoves.length; i++){
-            for(var j = 0; j < possibleVerticalMoves.length; j++){
-                if(possibleHorizontalMoves[i] == possibleVerticalMoves[j] || possibleHorizontalMoves[i] == (possibleVerticalMoves[j] * -1)){
-                    possibleMoves.push(createVector(possibleHorizontalMoves[i], possibleVerticalMoves[j]));
+        for(var i = -rows; i < rows; i++){
+            for(var j = -columns; j < columns; j++){
+                if((i != 0 || j != 0) && (i == j || i == -j)){
+                    if(i + this.pos.x < rows && i + this.pos.x >= 0 && j + this.pos.y < columns && j + this.pos.y >= 0){
+                        var possible = true;
+                        let v1 = createVector(i, j);
+                        if(i > 0){
+                            var ix = 1;
+                        }else{
+                            var ix = -1;
+                        }
+                        if(j>0){
+                            var jx = 1;
+                        }else{
+                            var jx = -1;
+                        }
+                        
+                        var iy = ix;
+                        var jy = jx;
+                        while(Math.abs(ix) < Math.abs(i)){
+                            console.log(ix + this.pos.x);
+                            if((board[(ix + this.pos.x)][this.pos.y + jx].pieceColour == this.colour) && ix != 0){
+                                        possible = false;
+                                        console.log('1');
+                                    } else if(board[ix + this.pos.x][this.pos.y +  jx].pieceColour != this.colour && board[ix + this.pos.x][this.pos.y + jx].pieceColour != 'none'){
+                                            possibleMoves.push(createVector(ix, jx));
+                                            possible = false;
+                                        console.log('2');
+                                    }
+                            ix += iy ;
+                            jx += jy;
+                        }
+                        
+                    }
+                    if(possible){
+                            possibleMoves.push(createVector(i, j));
+                        }
                 }
             }
         }
+
                
         for(var i = 0; i < possibleMoves.length; i++){
             var endPos = p5.Vector.add(this.pos, possibleMoves[i]);
-            if(endPos.x >= 0 && endPos.x < (rows) && endPos.y >= 0 && endPos.y < (columns) && board[endPos.x][endPos.y].pieces == 'none' && otherConditions == true){
+            if(endPos.x >= 0 && endPos.x < (rows) && endPos.y >= 0 && endPos.y < (columns) && board[endPos.x][endPos.y].pieces != this.colour && otherConditions == true){
                 legalMoves.push(possibleMoves[i]);
             }
         }
@@ -304,6 +322,12 @@ function Bishop(row, column, colour){
         var legalMoves = this.availableMoves();
         chosenMove = random(legalMoves);
         board[this.pos.x][this.pos.y].pieces = 'none';
+        var endPoz = p5.Vector.add(this.pos, chosenMove);
+        if(board[endPoz.x][endPoz.y].pieces != 'none'){
+            board[endPoz.x][endPoz.y].pieceObject.captured = true;
+            console.log('capture');
+            console.log(board[endPoz.x][endPoz.y].pieces);
+        }
         this.pos.add(chosenMove);
     }
 }
