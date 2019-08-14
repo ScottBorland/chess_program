@@ -1,3 +1,4 @@
+var moves = [];
 
 function King(row, column, colour){
     this.captured = false;
@@ -55,6 +56,7 @@ function King(row, column, colour){
         chosenMove = random(legalMoves);
         board[this.pos.x][this.pos.y].pieces = 'none';
         this.pos.add(chosenMove);
+        nextTurn(this.colour);
     }
     
 }
@@ -182,7 +184,7 @@ function Rook(row, column, colour){
         
         for(var i = 0; i < possibleMoves.length; i++){
             var endPos = p5.Vector.add(this.pos, possibleMoves[i]);
-            if(endPos.x >= 0 && endPos.x < (rows) && endPos.y >= 0 && endPos.y < (columns) && board[endPos.x][endPos.y].pieces != this.colour && otherConditions == true){
+            if(endPos.x >= 0 && endPos.x < (rows) && endPos.y >= 0 && endPos.y < (columns) && board[endPos.x][endPos.y].pieceColour != this.colour && otherConditions == true){
                 legalMoves.push(possibleMoves[i]);
             }
         }
@@ -194,12 +196,15 @@ function Rook(row, column, colour){
         chosenMove = random(legalMoves);
         board[this.pos.x][this.pos.y].pieces = 'none';
         var endPoz = p5.Vector.add(this.pos, chosenMove);
-        if(board[endPoz.x][endPoz.y].pieces != 'none'){
+        if(board[endPoz.x][endPoz.y].pieceColour != 'none'){
             board[endPoz.x][endPoz.y].pieceObject.captured = true;
-            console.log('capture');
-            console.log(board[endPoz.x][endPoz.y].pieces);
+            //console.log('capture');
+            //console.log(board[endPoz.x][endPoz.y].pieces);
         }
+        var newString = " " + this.colour + this.label + ' ' + chosenMove.x + ' , ' + chosenMove.y;
+        moves.push(newString);
         this.pos.add(chosenMove);
+        nextTurn(this.colour);
         
     } 
 }
@@ -243,7 +248,7 @@ function Knight(row, column, colour){
         var possibleMoves = [[1,2], [2,1], [2, -1], [-2, 1], [-2, -1], [1, -2], [-1, -2], [2, -1]];
         for(var i = 0; i < possibleMoves.length; i++){
             var endPos = p5.Vector.add(this.pos, possibleMoves[i]);
-            if(endPos.x >= 0 && endPos.x < (rows) && endPos.y >= 0 && endPos.y < (columns) && board[endPos.x][endPos.y].pieces != this.colour && otherConditions == true){
+            if(endPos.x >= 0 && endPos.x < (rows) && endPos.y >= 0 && endPos.y < (columns) && board[endPos.x][endPos.y].pieceColour != this.colour && otherConditions == true){
                 legalMoves.push(possibleMoves[i]);
             }
         }
@@ -257,9 +262,8 @@ function Knight(row, column, colour){
         var endPoz = p5.Vector.add(this.pos, chosenMove);
         if(board[endPoz.x][endPoz.y].pieces != 'none'){
             board[endPoz.x][endPoz.y].pieceObject.captured = true;
-            console.log('capture');
-            console.log(board[endPoz.x][endPoz.y].pieces);
         }
+        moves.push(chosenMove);
         this.pos.add(chosenMove);
     }
 }
@@ -364,7 +368,9 @@ function Bishop(row, column, colour){
             console.log('capture');
             console.log(board[endPoz.x][endPoz.y].pieces);
         }
+        moves.push(chosenMove);
         this.pos.add(chosenMove);
+        nextTurn(this.colour);
     }
 }
 
@@ -550,10 +556,12 @@ function Queen(row, column, colour){
         var endPoz = p5.Vector.add(this.pos, chosenMove);
         if(board[endPoz.x][endPoz.y].pieces != 'none'){
             board[endPoz.x][endPoz.y].pieceObject.captured = true;
-            console.log('capture');
-            console.log(board[endPoz.x][endPoz.y].pieces);
+            //console.log('capture');
+            //console.log(board[endPoz.x][endPoz.y].pieces);
         }
+        moves.push(chosenMove);
         this.pos.add(chosenMove);
+        nextTurn(this.colour);
     }    
     
 }
@@ -642,9 +650,6 @@ function Pawn(row, column, colour){
                 legalMoves.push(possibleMoves[i]);
             }
         }
-  
-        console.log(possibleMoves);
-        console.log(legalMoves);
         return(legalMoves);
     }
     
@@ -656,10 +661,11 @@ function Pawn(row, column, colour){
         var endPoz = p5.Vector.add(this.pos, chosenMove);
         if(board[endPoz.x][endPoz.y].pieces != 'none'){
             board[endPoz.x][endPoz.y].pieceObject.captured = true;
-            console.log('capture');
-            console.log(board[endPoz.x][endPoz.y].pieces);
+            //console.log('capture');
+            //console.log(board[endPoz.x][endPoz.y].pieces);
         }
         this.pos.add(chosenMove);
+        nextTurn(this.colour);
         }else{
             console.log('No legal moves');
             return('noLegalMoves');

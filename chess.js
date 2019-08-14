@@ -12,6 +12,11 @@ var squares = [];
 
 var pieces = [];
 
+var turn = 'W';
+
+var moveRecord = [];
+
+
 function setup(){
     frameRate(3);
     createCanvas(1920, 1080);
@@ -40,8 +45,10 @@ function setup(){
             squares.push(board[i][j]);
         }
     }
+   
+    
     //testing adding pieces
-    pieces.push(new Rook(0, 0, 'B'));
+    /*pieces.push(new Rook(0, 0, 'B'));
     pieces.push(new Knight(1, 0, 'B'));
     pieces.push(new Bishop(2, 0, 'B'));
     pieces.push(new Queen(3, 0, 'B'));
@@ -73,16 +80,16 @@ function setup(){
     pieces.push(new Pawn(4, 6, 'W'));
     pieces.push(new Pawn(5, 6, 'W'));
     pieces.push(new Pawn(6,6, 'W'));
-    pieces.push(new Pawn(7, 6, 'W'));
+    pieces.push(new Pawn(7, 6, 'W'));*/
     
     
-    /*pieces.push(new Rook(3, 7, 'W'));
+    pieces.push(new Rook(3, 7, 'W'));
     pieces.push(new Rook(4, 5, 'W'));
     pieces.push(new Rook(3, 4, 'W'));
     pieces.push(new Rook(4, 1, 'W'));
     pieces.push(new Rook(6, 5, 'W'));
     pieces.push(new Rook(3, 2, 'B'));
-    pieces.push(new Rook(2, 2, 'B'));*/
+    pieces.push(new Rook(2, 2, 'B'));
     
     /*pieces.push(new Bishop(3, 7, 'W'));
     pieces.push(new Bishop(4, 5, 'W'));
@@ -118,49 +125,76 @@ function setup(){
     pieces.push(new Pawn(6,6, 'W'));
     pieces.push(new Pawn(7, 6, 'W'));*/
     
-    for(i = 0; i < pieces.length; i++){
-        board[pieces[i].pos.x][pieces[i].pos.y].pieces = pieces[i].label;
-        board[pieces[i].pos.x][pieces[i].pos.y].pieces = pieces[i].colour;
-    }
+    /*for(i = 0; i < rows; i++){
+        for(j = 0; j < columns; j++){
+            board[i][j].pieces = 'none';
+            board[i][j].pieceColour = 'none';
+        }
+    }*/
 }
 
 function draw(){
     background(230);
-    //draw squares
-    for(i = 0; i < squares.length; i++){
-        squares[i].show();
-    }
-    //draw pieces
-    for(i = 0; i < pieces.length; i++){
-        if(pieces[i].captured == false){
-        pieces[i].show();
-        //pieces[i].randomMove();
-        }
-    }
-    
-    let randomPiece = random(pieces);
-    if(randomPiece.captured == false){
-        randomPiece.randomMove();
-    }
-    
     for(i = 0; i < rows; i++){
         for(j = 0; j < columns; j++){
             board[i][j].pieces = 'none';
             board[i][j].pieceColour = 'none';
         }
     }
+
+    //draw squares
+    for(i = 0; i < squares.length; i++){
+        squares[i].show();
+    }
+    //draw pieces
+    /*for(i = 0; i < pieces.length; i++){
+        if(pieces[i].captured == false){
+        //pieces[i].show();
+        //pieces[i].randomMove();
+        }
+    }*/
+    
+    
     
     for(i = 0; i < pieces.length; i++){
-        board[pieces[i].pos.x][pieces[i].pos.y].pieces = pieces[i].label;
-        board[pieces[i].pos.x][pieces[i].pos.y].pieceObject = pieces[i];
-        board[pieces[i].pos.x][pieces[i].pos.y].pieceColour = pieces[i].colour;
+        if(pieces[i].captured){
+            pieces.splice(i, 1);
+        }
     }
     
+    for(i = 0; i < pieces.length; i++){
+        board[pieces[i].pos.x][pieces[i].pos.y].pieces = pieces[i];
+        board[pieces[i].pos.x][pieces[i].pos.y].pieceObject = pieces[i];
+        board[pieces[i].pos.x][pieces[i].pos.y].pieceColour = pieces[i].colour;
+        board[pieces[i].pos.x][pieces[i].pos.y].pieceObject.show();
+    }
+    let randomPiece = random(pieces);
+    if(randomPiece.captured == false && randomPiece.colour == turn){
+        randomPiece.randomMove();
+    }
 }
 
 function coordinatesToPixelPos(row, column){
     pixelPos = createVector((width / 2 - ((rows/2) * squareSize) + (row * squareSize)), height / 2 - ((columns/2 * squareSize)) + (column * squareSize));
     return pixelPos;
+}
+
+function nextTurn(colour){
+    if(colour == 'W'){
+        turn = 'B'
+    }else if (colour == 'B'){
+        turn = 'W';
+    }
+}
+
+function keyPressed() {
+  if (keyCode === LEFT_ARROW) {
+   for(var i = 0; i < moves.length; i++){
+       var newString = "  Move " + i + ' : ' + moves[i];
+       moveRecord.push(newString);
+    }
+    console.log(moveRecord);
+  }
 }
 
 function Square(row, column){
@@ -172,14 +206,14 @@ function Square(row, column){
     this.pieceObject = 'none';
     
     if((this.r + this.c) % 2 == 0){
-        this.colour = 'W';
+        this.squareColour = 'W';
     }else{
-        this.colour = 'B';
+        this.squareColour = 'B';
     }
     
     this.show = function (){
         let c = color(0);
-        if(this.colour == 'W'){
+        if(this.squareColour == 'W'){
             c = color(177,228,185);
         }else{
             c = color(112, 162, 163);
