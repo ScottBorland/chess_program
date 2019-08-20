@@ -47,16 +47,30 @@ function King(row, column, colour){
             if(endPos.x >= 0 && endPos.x < (rows) && endPos.y >= 0 && endPos.y < (columns) && board[endPos.x][endPos.y].pieces == 'none' && otherConditions == true){
                 legalMoves.push(possibleMoves[i]);
             }
+        }if(legalMoves.length > 0){
+            return(legalMoves);
+        }else{
+            return('noLegalMoves');
         }
-        return(legalMoves);
+       
     }
-    
+
     this.randomMove = function(){
         var legalMoves = this.availableMoves();
+        if(legalMoves != 'noLegalMoves'){
         chosenMove = random(legalMoves);
         board[this.pos.x][this.pos.y].pieces = 'none';
+        var endPoz = p5.Vector.add(this.pos, chosenMove);
+        if(board[endPoz.x][endPoz.y].pieceColour != 'none'){
+            board[endPoz.x][endPoz.y].pieceObject.captured = true;
+            //console.log('capture');
+            //console.log(board[endPoz.x][endPoz.y].pieces);
+        }
+        var newString = " " + this.colour + this.label + ' ' + chosenMove.x + ' , ' + chosenMove.y;
+        moves.push(newString);
         this.pos.add(chosenMove);
         nextTurn(this.colour);
+        }
     }
     
 }
@@ -75,7 +89,7 @@ function Rook(row, column, colour){
     this.show = function(){
         
         if(this.captured){
-            console.log('Captured');
+            //console.log('Captured');
         }
         
         var position = coordinatesToPixelPos((this.pos.x), (this.pos.y));
@@ -174,25 +188,35 @@ function Rook(row, column, colour){
         //console.log(possibleVerticalMoves);
         
         var possibleMoves = [[]];
+        if(possibleHorizontalMoves.length > 0){
         for (var i = 0; i < possibleHorizontalMoves.length; i++){
             possibleMoves.push(createVector(possibleHorizontalMoves[i], 0));
+            }
         }
-        
+        if(possibleVerticalMoves.length > 0){
         for (var i = 0; i < possibleVerticalMoves.length; i++){
             possibleMoves.push(createVector(0, possibleVerticalMoves[i]));
+            }
         }
         
         for(var i = 0; i < possibleMoves.length; i++){
             var endPos = p5.Vector.add(this.pos, possibleMoves[i]);
             if(endPos.x >= 0 && endPos.x < (rows) && endPos.y >= 0 && endPos.y < (columns) && board[endPos.x][endPos.y].pieceColour != this.colour && otherConditions == true){
                 legalMoves.push(possibleMoves[i]);
-            }
         }
-        return(legalMoves);
+            if(legalMoves.length > 0){
+                return(legalMoves);
+            }
+        else{
+            return('noLegalMoves')
+        };
+        }
+        
     }
     
-    this.randomMove = function(){
+      this.randomMove = function(){
         var legalMoves = this.availableMoves();
+        if(legalMoves != 'noLegalMoves'){
         chosenMove = random(legalMoves);
         board[this.pos.x][this.pos.y].pieces = 'none';
         var endPoz = p5.Vector.add(this.pos, chosenMove);
@@ -205,8 +229,8 @@ function Rook(row, column, colour){
         moves.push(newString);
         this.pos.add(chosenMove);
         nextTurn(this.colour);
-        
-    } 
+        }
+    }
 }
 
 function Knight(row, column, colour){
@@ -252,19 +276,29 @@ function Knight(row, column, colour){
                 legalMoves.push(possibleMoves[i]);
             }
         }
+        if(legalMoves.length < 1){
+            return('noLegalMoves');
+        }else{
         return(legalMoves);
+        }
     }
     
     this.randomMove = function(){
         var legalMoves = this.availableMoves();
+        if(legalMoves != 'noLegalMoves'){
         chosenMove = random(legalMoves);
         board[this.pos.x][this.pos.y].pieces = 'none';
         var endPoz = p5.Vector.add(this.pos, chosenMove);
-        if(board[endPoz.x][endPoz.y].pieces != 'none'){
+        if(board[endPoz.x][endPoz.y].pieceColour != 'none'){
             board[endPoz.x][endPoz.y].pieceObject.captured = true;
+            //console.log('capture');
+            //console.log(board[endPoz.x][endPoz.y].pieces);
         }
-        moves.push(chosenMove);
+        var newString = " " + this.colour + this.label + ' ' + chosenMove.x + ' , ' + chosenMove.y;
+        moves.push(newString);
         this.pos.add(chosenMove);
+        nextTurn(this.colour);
+        }
     }
 }
 
@@ -326,15 +360,15 @@ function Bishop(row, column, colour){
                         
                         var iy = ix;
                         var jy = jx;
-                        while(Math.abs(ix) < Math.abs(i)){
-                            console.log(ix + this.pos.x);
-                            if((board[(ix + this.pos.x)][this.pos.y + jx].pieceColour == this.colour) && ix != 0){
+                        while(Math.abs(ix) <= Math.abs(i)){
+                            //console.log(ix + this.pos.x);
+                            if((board[(ix + this.pos.x)][this.pos.y + jx].pieceColour == this.colour) /*&& ix != 0*/){
                                         possible = false;
-                                        console.log('1');
+                                        
                                     } else if(board[ix + this.pos.x][this.pos.y +  jx].pieceColour != this.colour && board[ix + this.pos.x][this.pos.y + jx].pieceColour != 'none'){
                                             possibleMoves.push(createVector(ix, jx));
                                             possible = false;
-                                        console.log('2');
+                                        
                                     }
                             ix += iy ;
                             jx += jy;
@@ -355,23 +389,30 @@ function Bishop(row, column, colour){
                 legalMoves.push(possibleMoves[i]);
             }
         }
-        return(legalMoves);
+        if(legalMoves.length > 1){
+            return(legalMoves);
+        }else{
+            return('noLegalMoves');
+        }
     }
     
     this.randomMove = function(){
         var legalMoves = this.availableMoves();
+        if(legalMoves != 'noLegalMoves'){
         chosenMove = random(legalMoves);
         board[this.pos.x][this.pos.y].pieces = 'none';
         var endPoz = p5.Vector.add(this.pos, chosenMove);
-        if(board[endPoz.x][endPoz.y].pieces != 'none'){
+        if(board[endPoz.x][endPoz.y].pieceColour != 'none'){
             board[endPoz.x][endPoz.y].pieceObject.captured = true;
-            console.log('capture');
-            console.log(board[endPoz.x][endPoz.y].pieces);
+            //console.log('capture');
+            //console.log(board[endPoz.x][endPoz.y].pieces);
         }
-        moves.push(chosenMove);
+        var newString = " " + this.colour + this.label + ' ' + chosenMove.x + ' , ' + chosenMove.y;
+        moves.push(newString);
         this.pos.add(chosenMove);
         nextTurn(this.colour);
     }
+}
 }
 
 function Queen(row, column, colour){
@@ -517,15 +558,13 @@ function Queen(row, column, colour){
                         
                         var iy = ix;
                         var jy = jx;
-                        while(Math.abs(ix) < Math.abs(i)){
-                            console.log(ix + this.pos.x);
-                            if((board[(ix + this.pos.x)][this.pos.y + jx].pieceColour == this.colour) && ix != 0){
+                        while(Math.abs(ix) <= Math.abs(i)){
+                            //console.log(ix + this.pos.x);
+                            if((board[(ix + this.pos.x)][this.pos.y + jx].pieceColour == this.colour)){
                                         possible = false;
-                                        console.log('1');
                                     } else if(board[ix + this.pos.x][this.pos.y +  jx].pieceColour != this.colour && board[ix + this.pos.x][this.pos.y + jx].pieceColour != 'none'){
                                             possibleMoves.push(createVector(ix, jx));
                                             possible = false;
-                                        console.log('2');
                                     }
                             ix += iy ;
                             jx += jy;
@@ -551,7 +590,7 @@ function Queen(row, column, colour){
     
     this.randomMove = function(){
         var legalMoves = this.availableMoves();
-        chosenMove = random(legalMoves);
+        var chosenMove = random(legalMoves);
         board[this.pos.x][this.pos.y].pieces = 'none';
         var endPoz = p5.Vector.add(this.pos, chosenMove);
         if(board[endPoz.x][endPoz.y].pieces != 'none'){
@@ -559,9 +598,12 @@ function Queen(row, column, colour){
             //console.log('capture');
             //console.log(board[endPoz.x][endPoz.y].pieces);
         }
-        moves.push(chosenMove);
+        if(legalMoves != 'noLegalMoves'){
+        var newString = " " + this.colour + this.label + ' ' + chosenMove.x + ' , ' + chosenMove.y;
+        moves.push(newString);
         this.pos.add(chosenMove);
         nextTurn(this.colour);
+        }
     }    
     
 }
@@ -650,12 +692,17 @@ function Pawn(row, column, colour){
                 legalMoves.push(possibleMoves[i]);
             }
         }
-        return(legalMoves);
+        if(legalMoves.length > 0){
+            return(legalMoves);
+        }else{
+            return('noLegalMoves');
+            console.log('no legal moves');
+        }
     }
     
     this.randomMove = function(){
         var legalMoves = this.availableMoves();
-        if(legalMoves.length > 0){
+        if(legalMoves != 'noLegalMoves'){
         chosenMove = random(legalMoves);
         board[this.pos.x][this.pos.y].pieces = 'none';
         var endPoz = p5.Vector.add(this.pos, chosenMove);
@@ -664,10 +711,12 @@ function Pawn(row, column, colour){
             //console.log('capture');
             //console.log(board[endPoz.x][endPoz.y].pieces);
         }
+        //var newString = " " + this.colour + this.label + ' ' + chosenMove.x + ' , ' + chosenMove.y;
+        //moves.push(newString);
         this.pos.add(chosenMove);
         nextTurn(this.colour);
         }else{
-            console.log('No legal moves');
+            //console.log('No legal moves');
             return('noLegalMoves');
         }
     }

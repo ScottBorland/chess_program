@@ -48,7 +48,7 @@ function setup(){
    
     
     //testing adding pieces
-    /*pieces.push(new Rook(0, 0, 'B'));
+    pieces.push(new Rook(0, 0, 'B'));
     pieces.push(new Knight(1, 0, 'B'));
     pieces.push(new Bishop(2, 0, 'B'));
     pieces.push(new Queen(3, 0, 'B'));
@@ -80,10 +80,10 @@ function setup(){
     pieces.push(new Pawn(4, 6, 'W'));
     pieces.push(new Pawn(5, 6, 'W'));
     pieces.push(new Pawn(6,6, 'W'));
-    pieces.push(new Pawn(7, 6, 'W'));*/
+    pieces.push(new Pawn(7, 6, 'W'));
     
     
-    pieces.push(new Rook(3, 7, 'W'));
+    /*pieces.push(new Rook(3, 7, 'W'));
     pieces.push(new Rook(4, 5, 'W'));
     pieces.push(new Rook(3, 4, 'W'));
     pieces.push(new Rook(4, 1, 'W'));
@@ -91,13 +91,16 @@ function setup(){
     pieces.push(new Rook(3, 2, 'B'));
     pieces.push(new Rook(2, 2, 'B'));
     
-    /*pieces.push(new Bishop(3, 7, 'W'));
-    pieces.push(new Bishop(4, 5, 'W'));
-    pieces.push(new Bishop(3, 4, 'B'));
-    pieces.push(new Bishop(4, 1, 'W'));
-    pieces.push(new Bishop(6, 5, 'W'));
-    pieces.push(new Bishop(3, 2, 'B'));
-    pieces.push(new Bishop(2, 2, 'B'));*/
+    pieces.push(new Bishop(1, 7, 'B'));
+    pieces.push(new Bishop(1, 5, 'W'));
+    pieces.push(new Bishop(1, 4, 'B'));
+    pieces.push(new Bishop(1, 1, 'W'));
+    pieces.push(new Bishop(7, 5, 'W'));
+    pieces.push(new Bishop(6, 2, 'B'));
+    pieces.push(new Bishop(4, 2, 'B'));
+    pieces.push(new Bishop(2, 6, 'B'));
+    pieces.push(new Bishop(3, 5, 'B'));
+    pieces.push(new Bishop(4, 3, 'B'));*/
     
     /*pieces.push(new Queen(3, 7, 'W'));
     pieces.push(new Queen(4, 5, 'W'));
@@ -146,13 +149,6 @@ function draw(){
     for(i = 0; i < squares.length; i++){
         squares[i].show();
     }
-    //draw pieces
-    /*for(i = 0; i < pieces.length; i++){
-        if(pieces[i].captured == false){
-        //pieces[i].show();
-        //pieces[i].randomMove();
-        }
-    }*/
     
     
     
@@ -168,10 +164,7 @@ function draw(){
         board[pieces[i].pos.x][pieces[i].pos.y].pieceColour = pieces[i].colour;
         board[pieces[i].pos.x][pieces[i].pos.y].pieceObject.show();
     }
-    let randomPiece = random(pieces);
-    if(randomPiece.captured == false && randomPiece.colour == turn){
-        randomPiece.randomMove();
-    }
+    
 }
 
 function coordinatesToPixelPos(row, column){
@@ -187,14 +180,28 @@ function nextTurn(colour){
     }
 }
 
+
 function keyPressed() {
-  if (keyCode === LEFT_ARROW) {
-   for(var i = 0; i < moves.length; i++){
-       var newString = "  Move " + i + ' : ' + moves[i];
-       moveRecord.push(newString);
+    if (keyCode === LEFT_ARROW) {
+        for(var i = 0; i < moves.length; i++){
+            var newString = "  Move " + i + ' : ' + moves[i];
+            moveRecord.push(newString);
     }
     console.log(moveRecord);
   }
+    if(keyCode === RIGHT_ARROW){
+       RandomMove(); 
+    }
+}
+
+function RandomMove(){
+    let randomPiece = random(pieces);
+        if(randomPiece.captured == false && randomPiece.colour == turn && randomPiece.availableMoves() != 'noLegalMoves' && randomPiece.label == 'P'){
+            randomPiece.randomMove();
+            }
+       else{
+           RandomMove();
+       }
 }
 
 function Square(row, column){
