@@ -89,9 +89,9 @@ function setup(){
     pieces.push(new Rook(4, 1, 'W'));
     pieces.push(new Rook(6, 5, 'W'));
     pieces.push(new Rook(3, 2, 'B'));
-    pieces.push(new Rook(2, 2, 'B'));
+    pieces.push(new Rook(2, 2, 'B'));*/
     
-    pieces.push(new Bishop(1, 7, 'B'));
+    /*pieces.push(new Bishop(1, 7, 'B'));
     pieces.push(new Bishop(1, 5, 'W'));
     pieces.push(new Bishop(1, 4, 'B'));
     pieces.push(new Bishop(1, 1, 'W'));
@@ -196,7 +196,7 @@ function keyPressed() {
 
 function RandomMove(){
     let randomPiece = random(pieces);
-        if(randomPiece.captured == false && randomPiece.colour == turn && randomPiece.availableMoves() != 'noLegalMoves' && randomPiece.label == 'P'){
+        if(randomPiece.captured == false && randomPiece.colour == turn && randomPiece.availableMoves() != 'noLegalMoves'){
             randomPiece.randomMove();
             }
        else{

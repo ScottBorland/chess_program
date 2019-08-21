@@ -204,12 +204,12 @@ function Rook(row, column, colour){
             if(endPos.x >= 0 && endPos.x < (rows) && endPos.y >= 0 && endPos.y < (columns) && board[endPos.x][endPos.y].pieceColour != this.colour && otherConditions == true){
                 legalMoves.push(possibleMoves[i]);
         }
-            if(legalMoves.length > 0){
+        }
+        if(legalMoves.length > 0){
                 return(legalMoves);
-            }
+        }
         else{
-            return('noLegalMoves')
-        };
+            return('noLegalMoves');
         }
         
     }
@@ -225,8 +225,8 @@ function Rook(row, column, colour){
             //console.log('capture');
             //console.log(board[endPoz.x][endPoz.y].pieces);
         }
-        var newString = " " + this.colour + this.label + ' ' + chosenMove.x + ' , ' + chosenMove.y;
-        moves.push(newString);
+        //var newString = " " + this.colour + this.label + ' ' + chosenMove.x + ' , ' + chosenMove.y;
+        //moves.push(newString);
         this.pos.add(chosenMove);
         nextTurn(this.colour);
         }
@@ -337,6 +337,8 @@ function Bishop(row, column, colour){
         var otherConditions = true;
         
         var legalMoves = [];
+        
+        var canMove = false;
  
         
         //Attempt to remake bishop move function
@@ -362,11 +364,11 @@ function Bishop(row, column, colour){
                         var jy = jx;
                         while(Math.abs(ix) <= Math.abs(i)){
                             //console.log(ix + this.pos.x);
-                            if((board[(ix + this.pos.x)][this.pos.y + jx].pieceColour == this.colour) /*&& ix != 0*/){
+                            if((board[(iy + this.pos.x)][this.pos.y + jy].pieceColour == this.colour) /*&& ix != 0*/){
                                         possible = false;
                                         
-                                    } else if(board[ix + this.pos.x][this.pos.y +  jx].pieceColour != this.colour && board[ix + this.pos.x][this.pos.y + jx].pieceColour != 'none'){
-                                            possibleMoves.push(createVector(ix, jx));
+                                    } else if(board[iy + this.pos.x][this.pos.y +  jy].pieceColour != this.colour && board[iy + this.pos.x][this.pos.y + jy].pieces != 'none'){
+                                            possibleMoves.push(createVector(iy, jy));
                                             possible = false;
                                         
                                     }
@@ -385,14 +387,16 @@ function Bishop(row, column, colour){
                
         for(var i = 0; i < possibleMoves.length; i++){
             var endPos = p5.Vector.add(this.pos, possibleMoves[i]);
-            if(endPos.x >= 0 && endPos.x < (rows) && endPos.y >= 0 && endPos.y < (columns) && board[endPos.x][endPos.y].pieces != this.colour && otherConditions == true){
+            if(endPos.x >= 0 && endPos.x < (rows) && endPos.y >= 0 && endPos.y < (columns) && board[endPos.x][endPos.y].pieceColour != this.colour && otherConditions == true){
                 legalMoves.push(possibleMoves[i]);
+                canMove = true;
             }
         }
-        if(legalMoves.length > 1){
+        if(canMove){
             return(legalMoves);
         }else{
             return('noLegalMoves');
+            console.log('no legal bishop moves');
         }
     }
     
@@ -404,11 +408,9 @@ function Bishop(row, column, colour){
         var endPoz = p5.Vector.add(this.pos, chosenMove);
         if(board[endPoz.x][endPoz.y].pieceColour != 'none'){
             board[endPoz.x][endPoz.y].pieceObject.captured = true;
-            //console.log('capture');
-            //console.log(board[endPoz.x][endPoz.y].pieces);
         }
-        var newString = " " + this.colour + this.label + ' ' + chosenMove.x + ' , ' + chosenMove.y;
-        moves.push(newString);
+        //var newString = " " + this.colour + this.label + ' ' + chosenMove.x + ' , ' + chosenMove.y;
+        //moves.push(newString);
         this.pos.add(chosenMove);
         nextTurn(this.colour);
     }
